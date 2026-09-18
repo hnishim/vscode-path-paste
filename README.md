@@ -1,0 +1,1 @@
+# vscode-path-paste
