@@ -54,6 +54,16 @@ test('rejects URI lists containing more than one resource', () => {
   assert.equal(actual, undefined);
 });
 
+test('rejects a non-file URI without falling back to plain text', () => {
+  const actual = extractPathCandidate({
+    files: [],
+    uriList: 'https://example.com/Users/alice/from-web.txt',
+    plainText: '/Users/alice/from-text.txt',
+  }, HOME);
+
+  assert.equal(actual, undefined);
+});
+
 test('accepts one absolute plain-text path under the current home', () => {
   const actual = extractPathCandidate({
     files: [],
@@ -69,6 +79,7 @@ test('rejects relative, multiline, and home-external plain text', () => {
     'Projects/file.txt',
     '/Users/alice/one.txt\n/Users/alice/two.txt',
     '/Users/bob/file.txt',
+    '/Users/alice2/file.txt',
     '/tmp/file.txt',
   ];
 
