@@ -1,0 +1,31 @@
+{
+  "name": "vscode-path-paste",
+  "displayName": "Mac Path Paste",
+  "description": "Paste macOS home-directory paths using a language-appropriate expression.",
+  "version": "0.1.0",
+  "publisher": "hnishim",
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "configurationDefaults": {
+      "editor.pasteAs.preferences": [
+        "text.path.macHome"
+      ]
+    }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "package:vsix": "vsce package --out vscode-path-paste.vsix"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "3.9.2"
+  }
+}
