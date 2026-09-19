@@ -27,7 +27,7 @@ iCloud Driveの `Library/Mobile Documents/com~apple~CloudDocs` 以下は物理�
 
 ## 貼り付け動作
 
-独自の貼り付け種別 `text.path.macHome` を登録し、`editor.pasteAs.preferences` の既定値へ追加します。ユーザー設定で貼り付けの優先順位を上書きできます。
+独自の貼り付け種別 `text.path.macHome` を登録し、`editor.pasteAs.preferences` の既定値へ追加します。通常の `Cmd+V`（macOS）／`Ctrl+V` は、書き込み可能なテキストエディタ内に限りVS Code標準の `editor.action.clipboardPasteAction` へ割り当てます。ユーザー設定で貼り付けの優先順位を上書きでき、ユーザー定義キーバインドで通常の貼り付けキーの割り当ても変更できます。実際の自動変換にはVS Code／Cursor側で標準の貼り付け処理が独自の貼り付け種別を選択する必要があります。
 
 ## インストール
 
