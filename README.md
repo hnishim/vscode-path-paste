@@ -27,7 +27,9 @@ iCloud Driveの `Library/Mobile Documents/com~apple~CloudDocs` 以下は物理�
 
 ## 貼り付け動作
 
-独自の貼り付け種別 `text.path.macHome` を登録し、`editor.pasteAs.preferences` の既定値へ追加します。通常の `Cmd+V`（macOS）／`Ctrl+V` は、書き込み可能なテキストエディタ内に限りVS Code標準の `editor.action.clipboardPasteAction` へ割り当てます。ユーザー設定で貼り付けの優先順位を上書きでき、ユーザー定義キーバインドで通常の貼り付けキーの割り当ても変更できます。実際の自動変換にはVS Code／Cursor側で標準の貼り付け処理が独自の貼り付け種別を選択する必要があります。
+VS Code / Cursorの編集先で `Paste As...` を開き、`Paste macOS path for current language` を明示的に選択すると、対応する単一のmacOSパスを貼り付け先言語に合わせて変換します。拡張機能は独自の貼り付け種別 `text.path.macHome` を登録しますが、通常の `Cmd+V`（macOS）／`Ctrl+V` を再割当せず、`editor.pasteAs.preferences` の既定値も変更しません。通常の貼り付けでは独自変換を自動選択しません。
+
+`Paste As...` に独自候補が表示されない場合は、対応言語のテキストエディタで対象の単一パスをコピーしたことと、拡張機能が有効であることを確認してください。対象外入力・未対応言語では独自候補を返さず、通常の貼り付けや他の候補を妨げません。
 
 ## インストール
 
@@ -47,4 +49,4 @@ npm test
 npm run package:vsix
 ```
 
-CIでは上記テストとVSIX生成を実行します。Finderからの実際の貼り付け、貼り付け選択UI、Undo、ユーザー設定の上書きはVS Code / Cursor実アプリで別途確認します。
+CIでは上記テストとVSIX生成を実行します。Finderからの実際の貼り付け、明示的な貼り付け選択UI、通常貼り付けへの非干渉、Undo、他の貼り付け候補との共存はVS Code / Cursor実アプリで別途確認します。
