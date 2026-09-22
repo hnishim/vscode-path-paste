@@ -14,21 +14,6 @@
   "activationEvents": [
     "onStartupFinished"
   ],
-  "contributes": {
-    "configurationDefaults": {
-      "editor.pasteAs.preferences": [
-        "text.path.macHome"
-      ]
-    },
-    "keybindings": [
-      {
-        "command": "editor.action.clipboardPasteAction",
-        "key": "ctrl+v",
-        "mac": "cmd+v",
-        "when": "editorTextFocus && !editorReadonly"
-      }
-    ]
-  },
   "scripts": {
     "test": "node --test test/*.test.js",
     "package:vsix": "vsce package --out vscode-path-paste.vsix"
