@@ -5,7 +5,7 @@ const path = require('node:path');
 
 const repoRoot = path.resolve(__dirname, '..');
 
-test('extension manifest makes the path paste kind the default paste preference', () => {
+test('extension manifest does not set a default paste preference', () => {
   const manifest = JSON.parse(
     fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8'),
   );
@@ -13,29 +13,25 @@ test('extension manifest makes the path paste kind the default paste preference'
   assert.equal(typeof manifest.engines?.vscode, 'string');
   assert.equal(manifest.main, './src/extension.js');
 
-  const preferences =
-    manifest.contributes?.configurationDefaults?.['editor.pasteAs.preferences'];
-
-  assert.ok(Array.isArray(preferences));
-  assert.ok(preferences.includes('text.path.macHome'));
+  assert.equal(
+    Object.hasOwn(manifest.contributes?.configurationDefaults ?? {}, 'editor.pasteAs.preferences'),
+    false,
+    'extension must not select its paste kind by default',
+  );
 });
 
-test('normal paste uses the standard command only in writable text editors', () => {
+test('extension manifest does not override normal paste shortcuts', () => {
   const manifest = JSON.parse(
     fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8'),
   );
 
-  const bindings = manifest.contributes?.keybindings;
-  assert.ok(Array.isArray(bindings), 'paste must be contributed as a keybinding');
-  const pasteBindings = bindings.filter(
-    (binding) => binding.key === 'ctrl+v' && binding.mac === 'cmd+v',
+  const bindings = manifest.contributes?.keybindings ?? [];
+  assert.ok(Array.isArray(bindings));
+  assert.equal(
+    bindings.some((binding) =>
+      ['ctrl+v', 'cmd+v'].includes(binding.key?.toLowerCase()) ||
+      ['ctrl+v', 'cmd+v'].includes(binding.mac?.toLowerCase())),
+    false,
+    'extension must not contribute a normal paste shortcut on any platform',
   );
-  assert.equal(pasteBindings.length, 1, 'contribute exactly one normal paste binding');
-
-  const [binding] = pasteBindings;
-  assert.equal(binding.command, 'editor.action.clipboardPasteAction');
-  assert.equal(typeof binding.when, 'string');
-  const conditions = binding.when.split(/\s*&&\s*/).map((term) => term.trim());
-  assert.ok(conditions.includes('editorTextFocus'), 'must require text-editor focus');
-  assert.ok(conditions.includes('!editorReadonly'), 'must exclude read-only editors');
 });

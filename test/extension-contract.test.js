@@ -104,7 +104,7 @@ test('registers a paste provider for OS files, URI lists, and plain text', () =>
   );
 });
 
-test('normal paste returns one language-aware edit for a Finder file', async () => {
+test('paste provider returns one language-aware edit for a Finder file', async () => {
   const registration = loadExtensionWithFakeVscode();
   const home = os.homedir();
   const transfer = dataTransfer([
